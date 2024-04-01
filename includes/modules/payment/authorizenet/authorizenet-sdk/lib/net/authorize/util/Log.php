@@ -31,7 +31,6 @@ class Log
     private $sensitiveXmlTags = NULL;
     private $logFile = '';
     private $logLevel = ANET_LOG_LEVEL;
-
     private $sensitiveStringRegexes = NULL;
 	
 	/**

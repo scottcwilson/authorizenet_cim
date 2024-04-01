@@ -11,15 +11,15 @@ class GetMerchantDetailsRequest extends ANetApiRequestType
 
     // Json Serialize Code
     #[\ReturnTypeWillChange]
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize(){
+    public function jsonSerialize(): mixed
+    {
         $values = array_filter((array)get_object_vars($this),
         function ($val){
             return !is_null($val);
         });
         $mapper = \net\authorize\util\Mapper::Instance();
         foreach($values as $key => $value){
-            $classDetails = $mapper->getClass(get_class() , $key);
+            $classDetails = $mapper->getClass(get_class($this) , $key);
             if (isset($value)){
                 if ($classDetails->className === 'Date'){
                     $dateTime = $value->format('Y-m-d');

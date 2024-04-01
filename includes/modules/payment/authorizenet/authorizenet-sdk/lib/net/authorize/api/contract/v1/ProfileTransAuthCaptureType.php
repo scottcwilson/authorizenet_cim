@@ -14,14 +14,15 @@ class ProfileTransAuthCaptureType extends ProfileTransOrderType implements \Json
 
     // Json Serialize Code
     #[\ReturnTypeWillChange]
-    public function jsonSerialize(){
+    public function jsonSerialize(): mixed
+    {
         $values = array_filter((array)get_object_vars($this),
         function ($val){
             return !is_null($val);
         });
         $mapper = \net\authorize\util\Mapper::Instance();
         foreach($values as $key => $value){
-            $classDetails = $mapper->getClass(get_class() , $key);
+            $classDetails = $mapper->getClass(get_class($this) , $key);
             if (isset($value)){
                 if ($classDetails->className === 'Date'){
                     $dateTime = $value->format('Y-m-d');
@@ -49,7 +50,7 @@ class ProfileTransAuthCaptureType extends ProfileTransOrderType implements \Json
         if(is_array($data) || is_object($data)) {
 			$mapper = \net\authorize\util\Mapper::Instance();
 			foreach($data AS $key => $value) {
-				$classDetails = $mapper->getClass(get_class() , $key);
+				$classDetails = $mapper->getClass(get_class($this) , $key);
 	 
 				if($classDetails !== NULL ) {
 					if ($classDetails->isArray) {
