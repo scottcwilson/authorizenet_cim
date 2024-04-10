@@ -16,7 +16,7 @@
      *
      *  some portions of code may be copyrighted and licensed by www.zen-cart.com
      *
-     *  03/2024  project: authorizenet_cim v3.0.0 file: class.cim_admin_observer.php
+     *  03/2024  project: authorizenet_cim v3.0.2 file: class.cim_admin_observer.php
      */
 
 
@@ -39,7 +39,11 @@
         {
             switch ($eventID) {
                 case 'NOTIFY_ADMIN_ORDERS_PAYMENTDATA_COLUMN2':
-                    require_once DIR_WS_CLASSES . 'authnet_order.php';
+                    $file = DIR_WS_CLASSES . 'authnet_order.php';
+                    if (!file_exists($file)) {
+                        $file = DIR_FS_CATALOG . $file;
+                    }
+                    require_once $file;
                     require_once DIR_WS_CLASSES . 'currencies.php';
                     $currencies = new currencies();
 
@@ -198,12 +202,15 @@
                     <?php
                     break;
                 case 'NOTIFY_ADMIN_CUSTOMERS_MENU_BUTTONS':
+                    global $languageLoader;
                     if (empty($p1) || !is_object($p1) || empty($p2) || !is_array($p2)) {
                         trigger_error('Missing or invalid parameters for the NOTIFY_ADMIN_CUSTOMERS_MENU_BUTTONS notifier.',
                             E_USER_ERROR);
+                        exit ();
                     }
 
                     zen_include_language_file('authorizenet_cim.php', '/modules/payment/', 'inline');
+                    $languageLoader->loadExtraLanguageFiles(DIR_FS_CATALOG . DIR_WS_LANGUAGES,  $_SESSION['language'], 'authorizenet_cim.php', '/modules/payment');
                     require_once DIR_FS_CATALOG_MODULES . 'payment/' . 'authorizenet_cim.php';
                     zen_include_language_file('authnet_order.php', '/', 'inline');
                     $authnet_cim = new authorizenet_cim();

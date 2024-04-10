@@ -8,14 +8,13 @@
         released under GPU
         https://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
 
-       05/2023  project: authorizenet_cim; file: authorizenet_cim.php; version 2.3.3
+       05/2023  project: authorizenet_cim; file: authorizenet_cim.php; version 3.0.2
     */
     $define = [
-        'MODULE_PAYMENT_AUTHORIZENET_CIM_TEXT_ADMIN_TITLE',
-        'Authorize.net (CIM)', // Payment option title as displayed in the admin
+        'MODULE_PAYMENT_AUTHORIZENET_CIM_TEXT_ADMIN_TITLE' => 'Authorize.net (CIM)', // Payment option title as displayed in the admin
 
         'MODULE_PAYMENT_AUTHORIZENET_CIM_STATUS' => false,
-        'MODULE_PAYMENT_AUTHORIZENET_CIM_TEXT_DESCRIPTION',
+        'MODULE_PAYMENT_AUTHORIZENET_CIM_TEXT_DESCRIPTION' =>
         '<hr><strong>PLEASE, PLEASE, PLEASE </strong>use the below link to create your NEW merchant account.  You can keep your transactions separate from any previous authorize.net module as well as benefit me and the ZC team.<br><br><div class="alert alert-info"><a target="_blank" href="http://reseller.authorize.net/application/?resellerId=111066">Click Here to Sign Up for a NEW Merchant Account</a><br><br><a target="_blank" href="https://account.authorize.net/">Authorize.net Merchant Area</a><br><br><strong>Requirements:</strong><hr>*<strong>Authorize.net Account</strong> (use link above to signup)<br>*<strong>CURL is required </strong>and MUST be compiled with SSL support into PHP by your hosting company<br>*<strong>Authorize.net api login ID and transaction key</strong> are available from your Merchant Area</div>',
         'MODULE_PAYMENT_AUTHORIZENET_CIM_TEXT_ERROR_CURL_NOT_FOUND' =>
             'CURL functions not found - required for Authorize.net CIM payment module',
@@ -45,8 +44,7 @@
         'MODULE_PAYMENT_AUTHORIZENET_CIM_ENTRY_REFUND' => 'You may refund money to the customer\'s credit card here:',
         'MODULE_PAYMENT_AUTHORIZENET_CIM_TEXT_REFUND_CONFIRM_CHECK' => 'Check this box to confirm your intent: ',
         'MODULE_PAYMENT_AUTHORIZENET_CIM_ENTRY_REFUND_AMOUNT_TEXT' => 'Enter the amount you wish to refund',
-        'MODULE_PAYMENT_AUTHORIZENET_CIM_ENTRY_REFUND_CC_NUM_TEXT',
-        'Enter the last 4 digits of the Credit Card you are refunding.',
+        'MODULE_PAYMENT_AUTHORIZENET_CIM_ENTRY_REFUND_CC_NUM_TEXT' => 'Enter the last 4 digits of the Credit Card you are refunding.',
         'MODULE_PAYMENT_AUTHORIZENET_CIM_ENTRY_REFUND_TRANS_ID' => 'Enter the original Transaction ID:',
         'MODULE_PAYMENT_AUTHORIZENET_CIM_ENTRY_REFUND_TEXT_COMMENTS' => 'Notes (will show on Order History):',
         'MODULE_PAYMENT_AUTHORIZENET_CIM_ENTRY_REFUND_DEFAULT_MESSAGE' => 'Refund Issued',
@@ -68,7 +66,7 @@
         'MODULE_PAYMENT_AUTHORIZENET_CIM_TEXT_VOID_CONFIRM_CHECK' => 'Check this box to confirm your intent:',
         'MODULE_PAYMENT_AUTHORIZENET_CIM_ENTRY_VOID_TEXT_COMMENTS' => 'Notes (will show on Order History):',
         'MODULE_PAYMENT_AUTHORIZENET_CIM_ENTRY_VOID_DEFAULT_MESSAGE' => 'Transaction Cancelled',
-        'MODULE_PAYMENT_AUTHORIZENET_CIM_ENTRY_VOID_SUFFIX',
+        'MODULE_PAYMENT_AUTHORIZENET_CIM_ENTRY_VOID_SUFFIX' =>
         'Voids must be completed before the original transaction is settled in the daily batch.',
     ];
     if (defined('MODULE_PAYMENT_AUTHORIZENET_CIM_STATUS') && MODULE_PAYMENT_AUTHORIZENET_CIM_STATUS == 'True') {
