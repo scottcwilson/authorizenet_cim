@@ -479,7 +479,7 @@
 
         // helper functions
 
-        function logError($logData, $error = false): void
+        function logError($logData, $error = false, $afdsError = false): void
         {
             $response_log = (defined('DIR_FS_LOGS') ? DIR_FS_LOGS : DIR_FS_SQL_CACHE) . '/cim_response.log';
 
@@ -492,7 +492,7 @@
                 trigger_error($logData);
             }
 
-            if ($error || DEBUG_CIM) {
+            if ($error || DEBUG_CIM || $afdsError) {
                 error_log(date(DATE_RFC2822) . ":\n" . $logData . "\n", 3, $response_log);
             }
         }
@@ -1238,19 +1238,23 @@
             $response = $this->getControllerResponse($controller);
 
             $error = true;
+            $afdsError = false;
             if ($response != null) {
                 if ($response->getMessages()->getResultCode() == "Ok") {
                     $tresponse = $response->getTransactionResponse();
 
                     if ($tresponse != null && $tresponse->getMessages() != null) {
                         $error = false;
-                        if ($tresponse->getResponseCode() == '4') {
-                            $this->authorizationType = 'Authorize';
-                            $this->order_status = (int)MODULE_PAYMENT_AUTHORIZENET_CIM_REVIEW_ORDER_STATUS_ID;
-                        }
                         $logData = "Transaction Response code : " . $tresponse->getResponseCode() . "\n";
-                        $logData .= " Charge Customer Profile APPROVED  :" . "\n";
-                        $logData .= " Charge Customer Profile AUTH CODE : " . $tresponse->getAuthCode() . "\n";
+                        if (empty($tresponse->getAuthCode())) {
+                            $charge_amount = 0;
+                            $logData .= " Authorization was not done.  Probaly due to AFDS.  Check auth.net dashboard.\n";
+                            $afdsError = true;
+                            $this->authorizationType = 'Authorize';
+                        } else {
+                            $logData .= " Charge Customer Profile APPROVED  :" . "\n";
+                            $logData .= " Charge Customer Profile AUTH CODE : " . $tresponse->getAuthCode() . "\n";
+                        }
                         $this->approvalCode = $tresponse->getAuthCode();
                         $logData .= " Charge Customer Profile TRANS ID  : " . $tresponse->getTransId() . "\n";
                         $this->transID = $tresponse->getTransId();
@@ -1264,6 +1268,12 @@
                         if (zen_in_guest_checkout()) {
                             $this->deleteCustomerPaymentProfile($profileid, $paymentprofileid);
                             $paymentprofileid = '';
+                        }
+                        if ($tresponse->getResponseCode() === '4') {
+                            $this->authorizationType = 'Authorize';
+                            $logData .= " Check auth.net dashboard for AFDS; possible fraud.\n";
+                            $afdsError = true;
+                            $this->order_status = (int)MODULE_PAYMENT_AUTHORIZENET_CIM_REVIEW_ORDER_STATUS_ID;
                         }
 
                         $this->insertPayment($tresponse->getTransId(),
@@ -1288,7 +1298,7 @@
             } else {
                 $logData = "No response returned \n";
             }
-            $this->logError($logData, $error);
+            $this->logError($logData, $error, $afdsError);
             return $response;
         }
 
