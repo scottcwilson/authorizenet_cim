@@ -1634,7 +1634,7 @@
                         $logData .= " Code : " . $tresponse->getMessages()[0]->getCode() . "\n";
                         $logData .= " Description : " . $tresponse->getMessages()[0]->getDescription() . "\n";
                         $diffBetCaptAndAuth = $this->capturePayment($transactionid, $amount);
-                        $this->updateOrderInfo($_POST['oID'], MODULE_PAYMENT_AUTHORIZENET_CIM_ORDER_STATUS_ID, $diffBetCaptAndAuth);
+                        $this->updateOrderInfo($_POST['oID'], $this->order_status, $diffBetCaptAndAuth);
                     } else {
                         $logData = "Transaction Failed \n";
                         if ($tresponse->getErrors() != null) {
