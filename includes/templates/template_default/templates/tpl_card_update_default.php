@@ -72,7 +72,7 @@
                         ?>
                     </div>
                     <?php
-                    require($template->get_template_dir('tpl_modules_address_book_details.php', DIR_WS_TEMPLATE,
+                    require($template->get_template_dir('tpl_card_update_address.php', DIR_WS_TEMPLATE,
                             $current_page_base,
                             'templates') . '/' . 'tpl_card_update_address.php');
                     ?>
@@ -127,7 +127,7 @@
                 </div>
 
                 <?php
-                require($template->get_template_dir('tpl_modules_address_book_details.php', DIR_WS_TEMPLATE,
+                require($template->get_template_dir('tpl_card_update_address.php', DIR_WS_TEMPLATE,
                         $current_page_base,
                         'templates') . '/' . 'tpl_card_update_address.php');
                 ?>
